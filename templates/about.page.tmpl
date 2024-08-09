@@ -1,0 +1,17 @@
+{{ template "base" .}}
+
+{{ define "content" }}
+    <h1>About</h1>
+
+    <p>this came from the template: {{index .StringMap "test"}}</p>
+    <p>
+      <!-- "ne" (not equal) -->
+      {{if ne (index .StringMap "remote_ip") ""}}
+        Remote IP: {{index .StringMap "remote_ip"}}
+      {{else}}
+        Nothing to see here
+      
+      {{end}}
+    </p>
+{{ end }}
+
