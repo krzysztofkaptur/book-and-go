@@ -19,6 +19,10 @@ func RunServer(repo *handlers.Repository) {
 	r.Get("/", repo.HomeHandler)
 	r.Get("/about", repo.AboutHandler)
 
+	fileServer := http.FileServer(http.Dir("./static/"))
+
+	r.Handle("/static/*", http.StripPrefix("/static", fileServer))
+
 	router := http.Server{
 		Addr:    ":8080",
 		Handler: r,
