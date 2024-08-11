@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/krzysztofkaptur/book-and-go/pkg/config"
@@ -28,7 +29,7 @@ func (repo *Repository) HomeHandler(w http.ResponseWriter, r *http.Request) {
 	remoteIP := r.RemoteAddr
 	repo.App.SessionManager.Put(r.Context(), "remote_ip", remoteIP)
 
-	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 func (repo *Repository) AboutHandler(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +40,33 @@ func (repo *Repository) AboutHandler(w http.ResponseWriter, r *http.Request) {
 		"remote_ip": remoteIP,
 	}
 
-	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{
+	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
+}
+
+func (repo *Repository) AvailabilityHandler(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "search-availability.page.tmpl", &models.TemplateData{})
+}
+
+func (repo *Repository) PostAvailabilityHandler(w http.ResponseWriter, r *http.Request) {
+	start := r.FormValue("start")
+	end := r.FormValue("end")
+	w.Write([]byte(fmt.Sprintf("%v - %v", start, end)))
+}
+
+func (repo *Repository) ContactHandler(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "contact.page.tmpl", &models.TemplateData{})
+}
+
+func (repo *Repository) GeneralsHandler(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "generals.page.tmpl", &models.TemplateData{})
+}
+
+func (repo *Repository) MajorsHandler(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "majors.page.tmpl", &models.TemplateData{})
+}
+
+func (m *Repository) ReservationHandler(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
 }

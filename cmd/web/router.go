@@ -18,6 +18,12 @@ func RunServer(repo *handlers.Repository) {
 
 	r.Get("/", repo.HomeHandler)
 	r.Get("/about", repo.AboutHandler)
+	r.Get("/search-availability", repo.AvailabilityHandler)
+	r.Post("/search-availability", repo.PostAvailabilityHandler)
+	r.Get("/contact", repo.ContactHandler)
+	r.Get("/generals-quarters", repo.GeneralsHandler)
+	r.Get("/majors-suite", repo.MajorsHandler)
+	r.Get("/make-reservation", repo.ReservationHandler)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 
