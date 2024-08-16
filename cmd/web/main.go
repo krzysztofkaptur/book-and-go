@@ -1,19 +1,23 @@
 package main
 
 import (
+	"encoding/gob"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/krzysztofkaptur/book-and-go/pkg/config"
-	handlers "github.com/krzysztofkaptur/book-and-go/pkg/handlers"
-	"github.com/krzysztofkaptur/book-and-go/pkg/render"
+	"github.com/krzysztofkaptur/book-and-go/internal/config"
+	handlers "github.com/krzysztofkaptur/book-and-go/internal/handlers"
+	"github.com/krzysztofkaptur/book-and-go/internal/models"
+	"github.com/krzysztofkaptur/book-and-go/internal/render"
 )
 
 var app = config.AppConfig{}
 
 func main() {
+	gob.Register(models.Reservation{})
+
 	// todo: change to true on production
 	app.InProduction = false
 

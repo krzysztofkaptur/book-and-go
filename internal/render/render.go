@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 
 	"github.com/justinas/nosurf"
-	"github.com/krzysztofkaptur/book-and-go/pkg/config"
-	"github.com/krzysztofkaptur/book-and-go/pkg/models"
+	"github.com/krzysztofkaptur/book-and-go/internal/config"
+	"github.com/krzysztofkaptur/book-and-go/internal/models"
 )
 
 var functions = template.FuncMap{}
@@ -21,6 +21,9 @@ func NewTemplates(a *config.AppConfig) {
 }
 
 func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.Flash = app.SessionManager.PopString(r.Context(), "flash")
+	td.Warning = app.SessionManager.PopString(r.Context(), "warning")
+	td.Error = app.SessionManager.PopString(r.Context(), "error")
 	td.CSRFToken = nosurf.Token(r)
 	return td
 }
