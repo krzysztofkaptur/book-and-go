@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -9,7 +8,7 @@ import (
 	"github.com/krzysztofkaptur/book-and-go/internal/handlers"
 )
 
-func RunServer(repo *handlers.Repository) {
+func RunServer(repo *handlers.Repository) http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
@@ -32,13 +31,5 @@ func RunServer(repo *handlers.Repository) {
 
 	r.Handle("/static/*", http.StripPrefix("/static", fileServer))
 
-	router := http.Server{
-		Addr:    ":8080",
-		Handler: r,
-	}
-
-	err := router.ListenAndServe()
-	if err != nil {
-		log.Fatal(err)
-	}
+	return r
 }

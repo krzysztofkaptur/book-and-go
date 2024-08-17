@@ -16,6 +16,24 @@ import (
 var app = config.AppConfig{}
 
 func main() {
+	repo, err := run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	r := RunServer(repo)
+	router := http.Server{
+		Addr:    ":8080",
+		Handler: r,
+	}
+
+	err = router.ListenAndServe()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func run() (*handlers.Repository, error) {
 	gob.Register(models.Reservation{})
 
 	// todo: change to true on production
@@ -43,5 +61,5 @@ func main() {
 
 	render.NewTemplates(&app)
 
-	RunServer(repo)
+	return repo, nil
 }
